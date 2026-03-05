@@ -12,10 +12,11 @@ const Login = () => {
     const [error, setError] = React.useState({error:false,message:''});
 
     const onLogin = async() => {
+        setError({error:false,message:''});
         // perform login logic here, such as sending a request to the server
         console.log('Logging in with email:', email, 'and password:', password);
         try{
-       const response=await axios.post('http://localhost:1616/login',{email,password});
+       const response=await axios.post('http://localhost:1616/login',{email,password},{withCredentials:true});
          console.log('Login response:', response);
        if(response.status===200){
         navigate('/profile');
@@ -23,19 +24,12 @@ const Login = () => {
        }
     }
     catch(err){
-       console.log('Login error:', err);
-       setError({error:true,message:err.response?.data?.message || 'An error occurred during login'});
+       console.error('Login error:', err.response?.data || err);
+       setError({error:!err.response?.data?.success,message:err.response?.data?.message || 'An error occurred during login'});
     }
 }
     return (
         <>
-            {error.error && (
-                <div className="toast">
-                    <div className="alert alert-error">
-                        <span>{error.message}</span>
-                    </div>
-                </div>
-            )}
         <div className="flex items-center justify-center h-screen">
             <div className="card card-border bg-base-100 w-96 ">
                 <div className="card-body">
@@ -86,12 +80,21 @@ const Login = () => {
                         Must be more than 8 characters, including
                         <br />At least one number <br />At least one lowercase letter <br />At least one uppercase letter
                     </p>
+                    <p className='error'>{error.message}</p>
                     <div className="card-actions justify-end">
                         <button className="btn btn-primary" onClick={onLogin}>Buy Now</button>
                     </div>
                 </div>
             </div>
         </div>
+            {error.error}
+            {error.error && (
+                <div className="toast fixed top-4 right-4">
+                    <div className="alert alert-error">
+                        <span>{error.message}</span>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
