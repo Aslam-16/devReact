@@ -8,6 +8,7 @@ import store from './store';
 import Feed from './features/feed';
 
 function App() {
+  console.log('Rendering App component');
 
   return (
     <>

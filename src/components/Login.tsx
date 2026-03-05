@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../slices/userSlice';
 const Login = () => {
+    console.log('Rendering Login component');
 
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('johndoe@gmail.com')
+    const [password, setPassword] = React.useState('1234567');
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const [error, setError] = React.useState({error:false,message:''});
@@ -19,8 +20,8 @@ const Login = () => {
        const response=await axios.post('http://localhost:1616/login',{email,password},{withCredentials:true});
          console.log('Login response:', response);
        if(response.status===200){
-        navigate('/profile');
         dispatch(addUser(response.data.user));
+        navigate('/');
        }
     }
     catch(err){

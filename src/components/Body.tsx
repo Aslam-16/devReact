@@ -4,46 +4,55 @@ import Footer from './footer'
 import axios from 'axios'
 import { addUser } from '../slices/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-
+import { useEffect ,useState} from 'react'
 const Body = () => {
-  const dispatch=useDispatch();
-  const user=useSelector((state)=>state.user.user);
-  const navigate=useNavigate();
+  console.log('Rendering Body component');
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  const getprofile=async()=>{
-    try{
-      const response=await axios.get('http://localhost:1616/getprofile',{withCredentials:true});
+  const getprofile = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:1616/getprofile",
+        { withCredentials: true }
+      );
       console.log('Profile response:', response);
-      if(response.status===200){
-        dispatch(addUser(response.data.profile));
-        console.log('User added to store:', response.data.profile);
+
+      dispatch(addUser(response.data.profile));
+
+    } catch (err) {
+
+      if (err.response?.status === 401) {
+        navigate("/login");
       }
+
+    } finally {
+      setLoading(false);
     }
-    catch(err){
-      if(err.response?.status===401 || err.response?.status===500){
-        navigate('/login');
-      }
-      console.error('Profile error:', err.response?.data || err);
-    }
-  }
-  useEffect(()=>{
-    
-    if(!user){
-      console.log('Checking user in body component', user);
+  };
+
+  useEffect(() => {
+    console.log('useEffect in Body component called', { user });
+    if (!user) {
       getprofile();
-    }},[]);
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>
-        {/* navbar and footer will be my main route staic compoenents 
-        and the outlet will be my dynamic component that will change based on the route */}
-    <NavBar />
-    {/* OUTLET component comes from the child routes of this body component */}
-    <Outlet />
-    <Footer/>
+      <NavBar />
+      <Outlet />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
 export default Body

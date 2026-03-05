@@ -7,7 +7,7 @@ const userSlice=createSlice({
     },
     reducers:{
         addUser:(state,action)=>{
-            return {...state,user:action.payload}
+            state.user=action.payload;
         },
         removeUser: (state) => {
             return {...state, user: null}

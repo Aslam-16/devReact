@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router";
 import { removeUser } from "../slices/userSlice";
 const NavBar = () => {
+  console.log('Rendering NavBar component');
   const user=useSelector(state=>state.user.user)
   const dispatch=useDispatch();
   const Navigate=useNavigate();
@@ -13,6 +14,7 @@ const NavBar = () => {
     dispatch(removeUser());
     Navigate('/login');
   }
+  if(!user) return null;
   return (
       <div className="navbar bg-base-300 shadow-sm">
   <div className="flex-1">
