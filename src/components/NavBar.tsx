@@ -18,16 +18,16 @@ const NavBar = () => {
   return (
       <div className="navbar bg-base-300 shadow-sm">
   <div className="flex-1">
-    <Link to="/" className="btn btn-ghost text-xl">👨‍💻DevTinder</Link>
+    <Link to="/feed" className="btn btn-ghost text-xl">👨‍💻DevTinder</Link>
   </div>
- {user && <div className="flex gap-2">
-    <div className="text-sm">{user?.name}</div>
+ {user && <div className="flex gap-2 items-center">
+    <div className="text-sm">{user?.firstName} {user?.lastName}</div>
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            src={user?.photourl || 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'} />
         </div>
       </div>
       <ul

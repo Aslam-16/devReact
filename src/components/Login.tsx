@@ -21,7 +21,7 @@ const Login = () => {
          console.log('Login response:', response);
        if(response.status===200){
         dispatch(addUser(response.data.user));
-        navigate('/');
+        navigate('/feed');
        }
     }
     catch(err){
