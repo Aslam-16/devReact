@@ -27,11 +27,11 @@ const Feed = () => {
 
 
 if(feed.length===0)
-  return <h1>Loading feed...</h1>;
+  return <h1>No more users found</h1>;
 
   return (
     <div className='flex items-center justify-center h-screen '>
-    <Card post={feed[1]} />
+    <Card post={feed[0]} />
     </div>
   )
 }
