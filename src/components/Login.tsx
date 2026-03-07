@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,14 @@ const Login = () => {
 
     const [email, setEmail] = React.useState('johndoe@gmail.com')
     const [password, setPassword] = React.useState('1234567');
+    const [islogin, setIsLogin] = React.useState(true);
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [age, setAge] = React.useState('');
+    const [gender, setGender] = React.useState('');
+    const [skills, setSkills] = React.useState('');
+    const [photourl, setPhotourl] = React.useState('');
+    const [about, setAbout] = React.useState('');
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const [error, setError] = React.useState({error:false,message:''});
@@ -29,13 +37,146 @@ const Login = () => {
        setError({error:!err.response?.data?.success,message:err.response?.data?.message || 'An error occurred during login'});
     }
 }
+const onRegister=async()=>{
+    setError({error:false,message:''});
+    try{
+
+        const info={email,password,firstName,lastName,age,gender,skills:skills.split(',').map(skill=>skill.trim()),photourl,about};
+        console.log('Registering with info:', info);
+        const response=await axios.post('http://localhost:1616/signup',info,{withCredentials:true});
+        console.log('Register response:', response);
+        if(response.status===200){
+            dispatch(addUser(response.data.user));
+            navigate('/feed');
+           }
+    }
+    catch(err){
+        console.error('Register error:', err.response?.data || err);
+        setError({error:!err.response?.data?.success,message:err.response?.data?.message || 'An error occurred during registration'});
+    }
+}
+useEffect(()=>{
+    const timer=setTimeout(()=>{
+        setError({error:false,message:''});
+    },5000);
+
+    return ()=>clearTimeout(timer);
+},[error])
+
     return (
         <>
         <div className="flex items-center justify-center h-screen">
             <div className="card card-border bg-base-100 w-96 ">
                 <div className="card-body">
-                    <h2 className="card-title">Login</h2>
-                    <p>Enter your credentials to log in</p>
+                    <h2 className="card-title">{islogin ? 'Login' : 'Register'}</h2>
+                    <p>Enter your credentials to {islogin ? 'log in' : 'create an account'}</p>
+                    {!islogin && (<>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="firstname" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="lastname" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="age" required value={age} onChange={(e) => setAge(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="gender" required value={gender} onChange={(e) => setGender(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="about" required value={about} onChange={(e) => setAbout(e.target.value)} />
+                        </label>
+                            <label className="input validator">
+                                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                    </g>
+                                </svg>
+                                <input type="text" placeholder="skills" required value={skills} onChange={(e) => setSkills(e.target.value)} />
+                            </label>
+                        <label className="input validator">
+                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g
+                                    strokeLinejoin="round"
+                                    strokeLinecap="round"
+                                    strokeWidth="2.5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                >
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </g>
+                            </svg>
+                            <input type="text" placeholder="photourl" required value={photourl} onChange={(e) => setPhotourl(e.target.value)} />
+                        </label>
+                        </> )}
                     <label className="input validator">
                         <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g
@@ -83,8 +224,10 @@ const Login = () => {
                     </p>
                     <p className='error'>{error.message}</p>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary" onClick={onLogin}>Buy Now</button>
+                        <button className="btn btn-primary" onClick={islogin ? onLogin : onRegister }>{islogin ? 'Login' : 'Register'}</button>
                     </div>
+                <p className='text-center cursor-pointer' onClick={() => setIsLogin(!islogin)}>{!islogin ? 'Already have an account? Switch to Login' : 'New User? Switch to Register'}</p>
+
                 </div>
             </div>
         </div>

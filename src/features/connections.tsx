@@ -23,6 +23,7 @@ const Connections = () => {
         loadconnections();
     },[])
 
+if(!connections) return <h1>Loading...</h1>
 if(connections.length===0) return <h1>No connections found</h1>
 
 

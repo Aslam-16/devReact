@@ -29,7 +29,7 @@ if(!profileuser) {
     setLoaded(false);
     console.log('Profile user from Redux store:', profileuser);
     setUser({...user,firstName:profileuser?.firstName,lastName:profileuser?.lastName,email:profileuser?.email,_id:profileuser?._id,
-      gender:profileuser?.gender,skills:profileuser?.skills?.join(', ') || '',photourl:profileuser?.photourl,age:profileuser?.age});
+      gender:profileuser?.gender,skills:profileuser?.skills?.join(',') || '',photourl:profileuser?.photourl,age:profileuser?.age});
     setLoaded(true);
   },[profileuser]);
 

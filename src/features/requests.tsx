@@ -23,6 +23,16 @@ const Requests = () => {
         loadrequests();
     }, [])
 
+    const onUpdate = async (id: string, status: string) => {
+        try
+       { const response=await axios.post(`http://localhost:1616/respondtorequest/${id}/${status}`,{}, { withCredentials: true });
+        console.log(response.data);
+        const updatedrequest=requests.filter((req) => req._id !== id);
+        setrequests(updatedrequest);}
+        catch (err) {
+            console.error(err);
+        }
+    }
     if (requests.length === 0) return <h1>No requests found</h1>
 
 
@@ -40,8 +50,8 @@ const Requests = () => {
                     <h2 className="card-title">{req?.fromUserId?.firstName || 'User'}</h2>
                     <p>{req?.fromUserId?.gender}, {req?.fromUserId?.age}</p>
                     <div className="card-actions justify-end">
-                        <button className="btn btn-error">Reject</button>
-                  <button className="btn btn-secondary">Accept</button>
+                        <button className="btn btn-error" onClick={() => onUpdate(req._id, "rejected")}>Reject</button>
+                  <button className="btn btn-secondary" onClick={()=>onUpdate(req._id,"accepted")}>Accept</button>
               </div>
                 </div>
             </div>)
