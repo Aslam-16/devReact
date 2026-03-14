@@ -1,21 +1,41 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { removeUser } from '../slices/userSlice';
+import api from '../utils/interceptor';
+import { toggleToast } from '../slices/toastSlice';
+import useApi from '../customhooks/useapi';
+import { useSelector } from 'react-redux';
 
 
 
 const Requests = () => {
     console.log('requests');
     const [requests, setrequests] = React.useState([]);
+    const dispatch = useDispatch();
+    const toast = useSelector((state) => state.toast);
+    console.log('toast',toast);
+    
+    const response = useApi({ url: 'connection/requestreceived', method: 'get' });
+    console.log('response req', response);
 
 
     const loadrequests = async () => {
         try {
-            const res = await axios.get('http://localhost:1616/connection/requestreceived', { withCredentials: true });
+            const res = await api.get('connection/requestreceived');
             console.log('requests', res.data.requests);
             setrequests(res.data.requests);
         }
-        catch (err) {
-            console.error(err);
+        catch (error) {
+            if (error?.response.status === 401) {
+                console.error('Error loading feed:', error);
+                dispatch(removeUser());
+            }
+            else if(error?.response) {
+                dispatch(toggleToast({message:error.response.data.message,error:true}));
+            }
+            else{
+                dispatch(toggleToast({message:'No response received from server',error:true}));
+            }
         }
     }
 
@@ -24,11 +44,12 @@ const Requests = () => {
     }, [])
 
     const onUpdate = async (id: string, status: string) => {
-        try
-       { const response=await axios.post(`http://localhost:1616/respondtorequest/${id}/${status}`,{}, { withCredentials: true });
-        console.log(response.data);
-        const updatedrequest=requests.filter((req) => req._id !== id);
-        setrequests(updatedrequest);}
+        try {
+            const response = await api.post(`respondtorequest/${id}/${status}`, {});
+            console.log(response.data);
+            const updatedrequest = requests.filter((req) => req._id !== id);
+            setrequests(updatedrequest);
+        }
         catch (err) {
             console.error(err);
         }
@@ -37,8 +58,13 @@ const Requests = () => {
 
 
     return (
-
-        requests.map((req, index) =>
+        <>
+           {toast.error&& <div className="toast fixed top-4 right-4">
+                <div className="alert alert-error">
+                    <span>{toast.message}</span>
+                </div>
+            </div>}
+        {requests.map((req, index) =>
 
             <div key={req?._id} className="card card-side bg-base-300 shadow-sm w-1/2 m-auto mb-5">
                 <figure>
@@ -51,10 +77,11 @@ const Requests = () => {
                     <p>{req?.fromUserId?.gender}, {req?.fromUserId?.age}</p>
                     <div className="card-actions justify-end">
                         <button className="btn btn-error" onClick={() => onUpdate(req._id, "rejected")}>Reject</button>
-                  <button className="btn btn-secondary" onClick={()=>onUpdate(req._id,"accepted")}>Accept</button>
-              </div>
+                        <button className="btn btn-secondary" onClick={() => onUpdate(req._id, "accepted")}>Accept</button>
+                    </div>
                 </div>
-            </div>)
+            </div>)}
+            </>
     )
 }
 

@@ -14,7 +14,6 @@ const NavBar = () => {
     dispatch(removeUser());
     Navigate('/login');
   }
-  if(!user) return null;
   return (
       <div className="navbar bg-base-300 shadow-sm">
   <div className="flex-1">

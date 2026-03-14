@@ -1,35 +1,48 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
+import useApi from '../customhooks/useapi';
+import { useSelector } from 'react-redux';
 
 
 
 const Connections = () => {
     console.log('connections');
-    const [connections,setconnections]=React.useState([]);
-    
+    const response = useApi({ url: 'connections', method: 'get' });
+    console.log('response connections', response);
+    const toast = useSelector((state) => state.toast);
 
-    const loadconnections=async () => {
-        try{
-        const res=await axios.get('http://localhost:1616/connections',{withCredentials:true});
-        console.log('connections',res.data.connections);
-        setconnections(res.data.connections);
-        }
-        catch(err){
-            console.error(err);
-        }
-    }
+    if (toast.error) return (
 
-    useEffect(()=>{
-        loadconnections();
-    },[])
+        <div className="toast fixed top-4 right-4">
+            <div className="alert alert-error">
+                <span>{toast.message}</span>
+            </div>
+        </div>
 
-if(!connections) return <h1>Loading...</h1>
-if(connections.length===0) return <h1>No connections found</h1>
+    )
+
+if(toast.status===1) return (
+    <div className="toast fixed top-4 right-4">
+        <div className="alert alert-error">
+            <span>{toast.message}</span>
+        </div>
+    </div>
+)
+
+if(!response?.connections) return <h1>Loading...</h1>
+if(response?.connections.length===0) return <h1>No connections found</h1>
 
 
   return (
+    <>
+    
 
-      connections.map((connection,index)=>
+      {
+          toast.error && <div className="toast fixed top-4 right-4">
+              <div className="alert alert-error">
+                  <span>{toast.message}</span>
+              </div>
+          </div>}
+      
+      {response?.connections.map((connection,index)=>
         
         <div key={connection?._id}className="card card-side bg-base-300 shadow-sm w-1/2 m-auto mb-5">
           <figure>
@@ -40,12 +53,12 @@ if(connections.length===0) return <h1>No connections found</h1>
           <div className="card-body">
               <h2 className="card-title">{connection?.firstName || 'User'}</h2>
               <p>{connection?.gender}, {connection?.age}</p>
-              {/* <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Watch</button>
-              </div> */}
           </div>
       </div>)
+}
+</>
   )
+
 }
 
 export default Connections

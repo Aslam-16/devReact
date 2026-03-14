@@ -61,7 +61,7 @@ useEffect(()=>{
     },5000);
 
     return ()=>clearTimeout(timer);
-},[error])
+},[error.error])
 
     return (
         <>
@@ -72,81 +72,6 @@ useEffect(()=>{
                     <p>Enter your credentials to {islogin ? 'log in' : 'create an account'}</p>
                     {!islogin && (<>
                         <label className="input validator">
-                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </g>
-                            </svg>
-                            <input type="text" placeholder="firstname" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                        </label>
-                        <label className="input validator">
-                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </g>
-                            </svg>
-                            <input type="text" placeholder="lastname" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                        </label>
-                        <label className="input validator">
-                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </g>
-                            </svg>
-                            <input type="text" placeholder="age" required value={age} onChange={(e) => setAge(e.target.value)} />
-                        </label>
-                        <label className="input validator">
-                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </g>
-                            </svg>
-                            <input type="text" placeholder="gender" required value={gender} onChange={(e) => setGender(e.target.value)} />
-                        </label>
-                        <label className="input validator">
-                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </g>
-                            </svg>
-                            <input type="text" placeholder="about" required value={about} onChange={(e) => setAbout(e.target.value)} />
-                        </label>
-                            <label className="input validator">
                                 <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <g
                                         strokeLinejoin="round"
@@ -155,25 +80,125 @@ useEffect(()=>{
                                         fill="none"
                                         stroke="currentColor"
                                     >
-                                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </g>
+                                </svg>
+                            <input type="text" placeholder="firstname" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </g>
+                                </svg>
+                            <input type="text" placeholder="lastname" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                                <svg
+                                    className="h-[1em] opacity-50"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                        <circle cx="12" cy="14" r="3"></circle>
+                                    </g>
+                                </svg>
+                            <input type="text" placeholder="age" required value={age} onChange={(e) => setAge(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                                <svg
+                                    className="h-[1em] opacity-50"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                                        <line x1="16" y1="3" x2="16" y2="7"></line>
+                                        <line x1="8" y1="3" x2="8" y2="7"></line>
+                                        <circle cx="12" cy="14" r="3"></circle>
+                                    </g>
+                                </svg>
+                            <input type="text" placeholder="gender" required value={gender} onChange={(e) => setGender(e.target.value)} />
+                        </label>
+                        <label className="input validator">
+                                <svg
+                                    className="h-[1em] opacity-50"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+                                        <line x1="8" y1="8" x2="16" y2="8"></line>
+                                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                                        <line x1="8" y1="16" x2="13" y2="16"></line>
+                                    </g>
+                                </svg>
+                            <input type="text" placeholder="about" required value={about} onChange={(e) => setAbout(e.target.value)} />
+                        </label>
+                            <label className="input validator">
+                                <svg
+                                    className="h-[1em] opacity-50"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <circle cx="6" cy="6" r="2"></circle>
+                                        <path d="M8 8l8 8"></path>
+                                        <path d="M14 6l4 4"></path>
+                                        <path d="M13 7l4-4"></path>
+                                        <path d="M18 10l-4 4"></path>
                                     </g>
                                 </svg>
                                 <input type="text" placeholder="skills" required value={skills} onChange={(e) => setSkills(e.target.value)} />
                             </label>
                         <label className="input validator">
-                            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                >
-                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </g>
-                            </svg>
+                                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <g
+                                        strokeLinejoin="round"
+                                        strokeLinecap="round"
+                                        strokeWidth="2.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                    >
+                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                    </g>
+                                </svg>
                             <input type="text" placeholder="photourl" required value={photourl} onChange={(e) => setPhotourl(e.target.value)} />
                         </label>
                         </> )}

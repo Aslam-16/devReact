@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addUser } from '../slices/userSlice';
+import { addUser, removeUser } from '../slices/userSlice';
 import Card from './Card';
 const Profile = () => {
   console.log('Rendering Profile component');
@@ -23,6 +23,7 @@ const Profile = () => {
   const profileuser = useSelector((state:any) => state.user.user);
   const dispatch=useDispatch()
 if(!profileuser) {
+  console.log('No user found in Redux store, redirecting to login');
   Navigate('/login');
 }
   React.useEffect(()=>{
@@ -46,6 +47,9 @@ if(!profileuser) {
       dispatch(addUser(response.data.user));
     }
     catch (error) {
+      if(error.response.status===401){
+        dispatch(removeUser());
+      }
       console.error('Error updating profile:', error);
     }
   };

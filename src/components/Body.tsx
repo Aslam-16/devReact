@@ -14,6 +14,7 @@ const Body = () => {
 
   const getprofile = async () => {
     try {
+      console.log('Fetching profile from server');
       const response = await axios.get(
         "http://localhost:1616/getprofile",
         { withCredentials: true }
@@ -49,7 +50,9 @@ const Body = () => {
   return (
     <>
       <NavBar />
-      <Outlet />
+      <div className='mb-14'>
+        <Outlet />
+      </div>
       <Footer />
     </>
   );
