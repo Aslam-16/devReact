@@ -19,13 +19,7 @@ const Connections = () => {
 
     )
 
-if(toast.status===1) return (
-    <div className="toast fixed top-4 right-4">
-        <div className="alert alert-error">
-            <span>{toast.message}</span>
-        </div>
-    </div>
-)
+
 
 if(!response?.connections) return <h1>Loading...</h1>
 if(response?.connections.length===0) return <h1>No connections found</h1>
@@ -34,13 +28,6 @@ if(response?.connections.length===0) return <h1>No connections found</h1>
   return (
     <>
     
-
-      {
-          toast.error && <div className="toast fixed top-4 right-4">
-              <div className="alert alert-error">
-                  <span>{toast.message}</span>
-              </div>
-          </div>}
       
       {response?.connections.map((connection,index)=>
         

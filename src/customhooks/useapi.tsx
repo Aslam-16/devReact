@@ -54,13 +54,7 @@ import { useSelector } from "react-redux";
          resp();
      }, [url, method]);  
     
-        useEffect(() => {
-            setTimeout(() => {
-                if (toast.error) {
-                    dispatch(toggleToast({ message: '', error: false,status:null }));
-                }
-            }, 5000);
-        }, [toast]);
+        
 
         return response;
     

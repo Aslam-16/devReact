@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addUser, removeUser } from '../slices/userSlice';
 import Card from './Card';
+import { toggleToast } from '../slices/toastSlice';
 const Profile = () => {
   console.log('Rendering Profile component');
   const [user, setUser] = React.useState({
@@ -47,10 +48,23 @@ if(!profileuser) {
       dispatch(addUser(response.data.user));
     }
     catch (error) {
-      if(error.response.status===401){
+      console.log('error')
+      if(error?.response?.status===401){
+        console.log('error 1')
+
         dispatch(removeUser());
       }
-      console.error('Error updating profile:', error);
+      else if (error?.response) {
+        console.log('error 2')
+
+        dispatch(toggleToast({ message: error.response?.data?.message, error: true, status: error.response?.status }));
+      }
+      else {
+        console.log('error 3')
+
+        dispatch(toggleToast({ message: 'No response received from server', error: true, status: 1 }));
+      }
+
     }
   };
 

@@ -5,10 +5,12 @@ import axios from 'axios'
 import { addUser } from '../slices/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect ,useState} from 'react'
+import Toaster from './Toaster'
 const Body = () => {
   console.log('Rendering Body component');
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  const toast=useSelector((state)=>state.toast)
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -50,6 +52,7 @@ const Body = () => {
   return (
     <>
       <NavBar />
+      {toast.error && <Toaster/>}
       <div className='mb-14'>
         <Outlet />
       </div>

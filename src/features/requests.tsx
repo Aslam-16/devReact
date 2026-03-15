@@ -59,11 +59,6 @@ const Requests = () => {
 
     return (
         <>
-           {toast.error&& <div className="toast fixed top-4 right-4">
-                <div className="alert alert-error">
-                    <span>{toast.message}</span>
-                </div>
-            </div>}
         {requests.map((req, index) =>
 
             <div key={req?._id} className="card card-side bg-base-300 shadow-sm w-1/2 m-auto mb-5">
